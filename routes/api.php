@@ -1,8 +1,14 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LocationImageController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\SuggestionController;
+use App\Http\Controllers\UserBadgeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +23,26 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+// Categories
+Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
+
+// Locations
+Route::resource('locations', LocationController::class)->except(['create', 'edit']);
+
+// Location Images
+Route::resource('location-images', LocationImageController::class)->except(['create', 'edit', 'update']);
+
+// Reviews
+Route::resource('reviews', ReviewController::class)->except(['create', 'edit', 'update']);
+
+// Favorites
+Route::resource('favorites', FavoriteController::class)->except(['create', 'edit', 'update']);
+
+// Suggestions
+Route::resource('suggestions', SuggestionController::class)->except(['create', 'edit', 'update']);
+
+// User Badges
+Route::resource('user-badges', UserBadgeController::class)->except(['create', 'edit', 'update']);
