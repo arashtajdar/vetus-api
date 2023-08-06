@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class CategoryController extends Controller
 
         $categories = Category::with('locations')->paginate($perPage);
 
-        return $categories;
+        return ApiResponse::success($categories, 'Categories retrieved successfully');
     }
 
     public function store(Request $request)
