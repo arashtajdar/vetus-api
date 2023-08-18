@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LocationController;
 use Illuminate\Http\Request;
@@ -19,30 +20,36 @@ use App\Http\Controllers\UserBadgeController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+Route::get('/', function () {
+    return 'welcome to api';
+});
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
-// Categories
-Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
-
-// Locations
 Route::resource('locations', LocationController::class)->except(['create', 'edit']);
 
-// Location Images
-Route::resource('location-images', LocationImageController::class)->except(['create', 'edit', 'update']);
+// Protected routes (require authentication)
+Route::middleware('auth:sanctum')->group(function () {
+    // Categories
+    Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 
-// Reviews
-Route::resource('reviews', ReviewController::class)->except(['create', 'edit', 'update']);
+    // Locations
 
-// Favorites
-Route::resource('favorites', FavoriteController::class)->except(['create', 'edit', 'update']);
+    // Location Images
+    Route::resource('location-images', LocationImageController::class)->except(['create', 'edit', 'update']);
 
-// Suggestions
-Route::resource('suggestions', SuggestionController::class)->except(['create', 'edit', 'update']);
+    // Reviews
+    Route::resource('reviews', ReviewController::class)->except(['create', 'edit', 'update']);
 
-// User Badges
-Route::resource('user-badges', UserBadgeController::class)->except(['create', 'edit', 'update']);
+    // Favorites
+    Route::resource('favorites', FavoriteController::class)->except(['create', 'edit', 'update']);
+
+    // Suggestions
+    Route::resource('suggestions', SuggestionController::class)->except(['create', 'edit', 'update']);
+
+    // User Badges
+    Route::resource('user-badges', UserBadgeController::class)->except(['create', 'edit', 'update']);
+});
