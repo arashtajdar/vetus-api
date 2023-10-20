@@ -11,10 +11,31 @@ class LocationController extends Controller
     {
         $perPage = 10;
 
-        $locations = Location::with('category')->paginate($perPage);
+        return Location::with('category')->paginate($perPage);
+    }
+
+    public function find(Request $request)
+    {
+        $perPage = 5000;
+
+        $visibleRegionData = $request->input('visible_region_data');
+        if ($visibleRegionData) {
+            $latitude = $visibleRegionData['latitude'];
+            $longitude = $visibleRegionData['longitude'];
+            $latitudeDelta = $visibleRegionData['latitudeDelta'];
+            $longitudeDelta = $visibleRegionData['longitudeDelta'];
+
+            $locations = Location::with('category')
+                ->whereBetween('latitude', [$latitude - $latitudeDelta, $latitude + $latitudeDelta])
+                ->whereBetween('longitude', [$longitude - $longitudeDelta, $longitude + $longitudeDelta])
+                ->paginate($perPage);
+        } else {
+            $locations = Location::with('category')->paginate($perPage);
+        }
 
         return $locations;
     }
+
 
     public function store(Request $request)
     {

@@ -9,7 +9,10 @@ class Location extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
+    protected $casts = [
+        'latitude' => 'float',
+        'longitude' => 'float',
+    ];
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');

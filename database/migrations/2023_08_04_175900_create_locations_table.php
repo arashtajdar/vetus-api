@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id('id');
             $table->string('name');
-            $table->decimal('latitude', 10, 8);
-            $table->decimal('longitude', 11, 8);
+            $table->string('latitude', 20);
+            $table->string('longitude', 20);
             $table->text('description')->nullable();
             $table->string('website')->nullable();
             $table->unsignedBigInteger('category_id');
