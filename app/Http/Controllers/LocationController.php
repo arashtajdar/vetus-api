@@ -9,9 +9,9 @@ class LocationController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = 10;
+        $perPage = 5000;
 
-        return Location::with('category')->paginate($perPage);
+        return Location::paginate($perPage);
     }
 
     public function find(Request $request)

@@ -12,6 +12,7 @@ class Location extends Model
     protected $casts = [
         'latitude' => 'float',
         'longitude' => 'float',
+        'category_id' => 'integer',
     ];
     public function category()
     {
