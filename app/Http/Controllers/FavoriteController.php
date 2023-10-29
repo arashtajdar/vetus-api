@@ -8,12 +8,15 @@ class FavoriteController extends Controller
 {
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'location_id' => 'required|exists:locations,location_id',
-            // Add any other fields that need validation here
-        ]);
-
-        $favorite = Favorite::create($validatedData);
+        try {
+            $validatedData = $request->validate([
+                'location_id' => 'required|exists:locations,id',
+                'user_id' => 'required|exists:users,id',
+            ]);
+            $favorite = Favorite::create($validatedData);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error creating favorite', 'error' => $e->getMessage()], 500);
+        }
 
         return response()->json(['message' => 'Location added to favorites', 'data' => $favorite], 201);
     }

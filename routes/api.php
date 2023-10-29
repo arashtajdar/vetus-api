@@ -31,22 +31,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('locations', LocationController::class)->except(['create', 'edit', 'find']);
 Route::post('findByCoords', [LocationController::class, 'find']);
+Route::post('favourites', [FavoriteController::class, 'store']);
 
 // Protected routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
     // Categories
     Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 
-    // Locations
-
     // Location Images
     Route::resource('location-images', LocationImageController::class)->except(['create', 'edit', 'update']);
 
     // Reviews
     Route::resource('reviews', ReviewController::class)->except(['create', 'edit', 'update']);
-
-    // Favorites
-    Route::resource('favorites', FavoriteController::class)->except(['create', 'edit', 'update']);
 
     // Suggestions
     Route::resource('suggestions', SuggestionController::class)->except(['create', 'edit', 'update']);
