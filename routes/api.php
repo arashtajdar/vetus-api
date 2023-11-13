@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\SocialiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LocationImageController;
@@ -23,8 +24,15 @@ use App\Http\Controllers\UserBadgeController;
 Route::get('/', function () {
     return 'welcome to api';
 });
+
+
+
+Route::get('/test', function () {
+    return 'Test';
+});
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+Route::post('/login/callback', [SocialiteController::class, 'handleProviderCallback']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
