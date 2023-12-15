@@ -39,7 +39,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('locations', LocationController::class)->except(['create', 'edit', 'find']);
 Route::post('findByCoords', [LocationController::class, 'find']);
-Route::post('favourites', [FavoriteController::class, 'store']);
 
 // Protected routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
@@ -57,4 +56,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // User Badges
     Route::resource('user-badges', UserBadgeController::class)->except(['create', 'edit', 'update']);
+
+    Route::post('favourites', [FavoriteController::class, 'store']);
+    Route::post('favourites/remove', [FavoriteController::class, 'destroy']);
+
 });

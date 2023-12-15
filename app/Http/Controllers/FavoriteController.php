@@ -10,9 +10,9 @@ class FavoriteController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'location_id' => 'required|exists:locations,id',
-                'user_id' => 'required|exists:users,id',
+                'location_id' => 'required|exists:locations,id'
             ]);
+            $validatedData["user_id"] = $request->user()->getAttributes()["id"];
             $favorite = Favorite::create($validatedData);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error creating favorite', 'error' => $e->getMessage()], 500);
@@ -21,11 +21,19 @@ class FavoriteController extends Controller
         return response()->json(['message' => 'Location added to favorites', 'data' => $favorite], 201);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $favorite = Favorite::findOrFail($id);
-        $favorite->delete();
+        try {
+            $validatedData = $request->validate([
+                'location_id' => 'required|exists:locations,id'
+            ]);
+            $validatedData["user_id"] = $request->user()->getAttributes()["id"];
+            $favorite = Favorite::where("location_id" , $validatedData["location_id"])->where("user_id", $validatedData["user_id"]);
+            $favorite->delete();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error removing favorite', 'error' => $e->getMessage()], 500);
+        }
 
-        return response()->json(['message' => 'Location removed from favorites']);
+        return response()->json(['message' => 'Location removed from favorites'], 201);
     }
 }

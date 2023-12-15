@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -11,7 +12,6 @@ class SocialiteController extends Controller
 {
     public function handleProviderCallback(Request $request)
     {
-
         $validator = Validator::make($request->only('provider', 'access_provider_token'), [
             'provider' => ['required', 'string'],
             'access_provider_token' => ['required', 'string']
@@ -25,15 +25,17 @@ class SocialiteController extends Controller
             return $validated;
         }
         $providerUser = Socialite::driver($provider)->userFromToken($request->access_provider_token);
-
-        $user = User::firstOrCreate(
+        $user = User::updateOrCreate(
             [
                 'email' => $providerUser->getEmail()
             ],
             [
                 'name' => $providerUser->getName(),
+                'google_token' => $providerUser->token,
+                'google_refresh_token' => $providerUser->refreshToken,
             ]
         );
+        Auth::login($user);
         $data =  [
             'token' => $user->createToken('Sanctum+Socialite')->plainTextToken,
             'user' => $user,
