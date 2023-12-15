@@ -9,7 +9,9 @@ class Favorite extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
+    protected $casts = [
+        'user_id' => 'string',
+    ];
     // Define the relationship with the location
     public function location()
     {

@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
+    public function index(Request $request)
+    {
+      $user_id = $request->user()->getAttributes()["id"];
+      return Favorite::where("user_id", $user_id)->paginate(5000);
+    }
+
     public function store(Request $request)
     {
         try {

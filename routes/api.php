@@ -59,5 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('favourites', [FavoriteController::class, 'store']);
     Route::post('favourites/remove', [FavoriteController::class, 'destroy']);
+    Route::post('favourites/fetchAll', [FavoriteController::class, 'index']);
 
 });
