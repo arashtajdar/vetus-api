@@ -37,8 +37,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('locations', LocationController::class)->except(['create', 'edit', 'find']);
-Route::post('findByCoords', [LocationController::class, 'find']);
 
 // Protected routes (require authentication)
 Route::middleware('auth:sanctum')->group(function () {
@@ -47,9 +45,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Location Images
     Route::resource('location-images', LocationImageController::class)->except(['create', 'edit', 'update']);
-
-    // Reviews
-    Route::resource('reviews', ReviewController::class)->except(['create', 'edit', 'update']);
 
     // Suggestions
     Route::resource('suggestions', SuggestionController::class)->except(['create', 'edit', 'update']);
@@ -60,5 +55,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('favourites', [FavoriteController::class, 'store']);
     Route::post('favourites/remove', [FavoriteController::class, 'destroy']);
     Route::post('favourites/fetchAll', [FavoriteController::class, 'index']);
+    Route::post('findByCoords', [LocationController::class, 'find']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::resource('reviews', ReviewController::class)->except(['create', 'edit', 'find']);
 
+});
+Route::middleware(['optional_token'])->group(function () {
+    // Your routes that don't require a token go here
+    Route::resource('locations', LocationController::class)->except(['create', 'edit', 'find']);
 });

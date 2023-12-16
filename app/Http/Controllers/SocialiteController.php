@@ -35,7 +35,7 @@ class SocialiteController extends Controller
                 'google_refresh_token' => $providerUser->refreshToken,
             ]
         );
-        Auth::login($user);
+
         $data =  [
             'token' => $user->createToken('Sanctum+Socialite')->plainTextToken,
             'user' => $user,

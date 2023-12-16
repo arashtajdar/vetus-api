@@ -8,11 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+    protected $table = "reviews";
     protected $guarded = [];
+    protected $fillable = [
+        'location_id',
+        'user_id',
+        'rating',
+        'comment',
+        'timestamp',
+    ];
 
-    // Define the relationship with the location
-    public function location()
+    public function user()
     {
-        return $this->belongsTo(Location::class, 'location_id', 'location_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

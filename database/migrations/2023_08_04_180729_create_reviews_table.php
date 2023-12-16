@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->integer('rating');
             $table->text('comment')->nullable();
-            $table->timestamp('timestamp')->useCurrent();
+            $table->timestamps();
 
-            $table->foreign('location_id')->references('location_id')->on('locations')->onDelete('cascade');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

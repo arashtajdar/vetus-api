@@ -6,14 +6,23 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
+    public function index(Request $request)
+    {
+        $validatedData = $request->validate([
+            'location_id' => 'required|exists:locations,id',
+        ]);
+        return Review::where("location_id", $validatedData["location_id"])
+            ->with("user")
+            ->paginate(100);
+    }
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'location_id' => 'required|exists:locations,location_id',
+            'location_id' => 'required|exists:locations,id',
             'rating' => 'required|integer|between:1,5',
             'comment' => 'nullable|string',
-            // Add any other fields that need validation here
         ]);
+        $validatedData["user_id"] = $request->user()->getAttributes()["id"];
 
         $review = Review::create($validatedData);
 

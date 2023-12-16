@@ -4,14 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LocationController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = 5000;
+        $user = Auth::guard('sanctum')->user();
 
-        return Location::paginate($perPage);
+        // If a token is provided, $user will contain the authenticated user.
+        // If no token is provided or the token is invalid, $user will be null.
+
+        $perPage = 5000;
+        return Location::with(["favorites" => function ($query) use ($user) {
+            $query->where('user_id', $user?->getAttributes()["id"]);
+        }])->with(["reviews" => function ($query) use ($user) {
+            $query->where('user_id', $user?->getAttributes()["id"]);
+        }])->paginate($perPage);
     }
 
     public function find(Request $request)

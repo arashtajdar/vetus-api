@@ -28,13 +28,13 @@ class Location extends Model
     // Define the relationship with reviews
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'location_id', 'location_id');
+        return $this->hasMany(Review::class, 'location_id', 'id');
     }
 
     // Define the relationship with favorites
     public function favorites()
     {
-        return $this->hasMany(Favorite::class, 'location_id', 'location_id');
+        return $this->hasMany(Favorite::class, 'location_id', 'id');
     }
 
     // Define the relationship with suggestions
