@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Helpers\ApiResponse;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
@@ -47,6 +48,9 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => $exception->getMessage()], 400);
         }
         if ($exception instanceof QueryException) {
+            return response()->json(['error' => $exception->getMessage()], 400);
+        }
+        if ($exception instanceof ClientException) {
             return response()->json(['error' => $exception->getMessage()], 400);
         }
         return parent::render($request, $exception);
