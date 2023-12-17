@@ -9,6 +9,9 @@ class Category extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'category_id' => 'int',
+    ];
 
     // Define the relationship with locations
     public function locations()
