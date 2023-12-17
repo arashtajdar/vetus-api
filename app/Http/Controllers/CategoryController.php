@@ -11,8 +11,11 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $perPage = 100;
-
-        return Category::paginate($perPage);
+        $categories = Category::paginate($perPage);
+        foreach ($categories as $category) {
+            $category['selected'] = true;
+        }
+        return $categories;
     }
 
     public function store(Request $request)

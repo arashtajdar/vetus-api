@@ -15,6 +15,6 @@ class Favorite extends Model
     // Define the relationship with the location
     public function location()
     {
-        return $this->belongsTo(Location::class, 'location_id', 'location_id');
+        return $this->belongsTo(Location::class, 'location_id', 'id');
     }
 }
