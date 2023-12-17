@@ -10,11 +10,9 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = 10;
+        $perPage = 100;
 
-        $categories = Category::with('locations')->paginate($perPage);
-
-        return ApiResponse::success($categories, 'Categories retrieved successfully');
+        return Category::paginate($perPage);
     }
 
     public function store(Request $request)
